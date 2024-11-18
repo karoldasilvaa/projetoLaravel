@@ -12,13 +12,17 @@
 </div>
 <div id="tarefas-container" class="col-md-12">
     <h2>Próximas Tarefas</h2>
-    <p class="subtitle">Veja as tarefas dos próximos dias</p>
+
+    @if (count($tasks) > 0)
+        <p class="subtitle">Veja as tarefas dos próximos dias</p>
+    @endif
+    
     <div id="cards-container" class="row">
         @foreach($tasks as $task)
             <div class="card col-md-3">
-                <img src="/img/tarefa.png" alt="{{$task->title}}">
+                <img src="/img/tarefas/{{$task->image}}" alt="{{$task->title}}">
                 <div class="card-body">
-                    <p>17/11/2024</p>
+                    <p>{{ date('d/m/Y', strtotime($task->date)) }}</p>
 
                     <h5 class="card-title">
                         {{$task->title}}
@@ -28,9 +32,13 @@
                     </p>
                 </div>
 
-                <a href="/tasks/create" class="btn btn-primary">Editar</a>
+                <a href="/tasks/create/{{$task->id}}" class="btn btn-primary">Editar</a>
             </div>
         @endforeach
+
+        @if (count($tasks) == 0)
+            <p>Não há tarefas disponíveis</p>
+        @endif
     </div>
 </div>
 

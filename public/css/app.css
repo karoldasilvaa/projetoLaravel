@@ -177,3 +177,7 @@ footer {
 .spacing {
     margin-bottom: 15px;
 }
+
+#tarefa-create-container img {
+    max-height: 200px;
+}

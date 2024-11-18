@@ -14,16 +14,42 @@ class TaskController extends Controller
         return view('welcome', ['tasks' => $tasks ]);
     }
 
-    public function create() {
-        return view('tasks.create');
+    public function create($id = null) {
+
+        if($id == null){
+            return view('tasks.create');
+        }
+
+        $task = Task::findOrFail($id);
+        return view('tasks.create', ['task' => $task ]);
     }
 
     public function store(Request $request) {
 
         try {
-            $task = new Task;
+            if($request->id > 0){
+                $task = Task::findOrFail($request->id);
+            } else {
+                $task = new Task;
+            }
+            
             $task->title = $request->title;
+            $task->date = $request->date;
             $task->description = $request->description;
+
+            if($request->hasFile('image') && $request->file('image')->isValid()) {
+
+                $requestImage = $request->image;
+
+                $extension = $requestImage->extension();
+
+                $imageName = md5($requestImage->getClientOriginalName() . Strtotime("now")) . "." . $extension;
+
+                $request->image->move(public_path('img/tarefas'), $imageName);
+
+                $task->image = $imageName;
+            }   
+
             $task->save();
 
             return redirect('/')->with('msg-success', 'Tarefa criada com sucesso!');

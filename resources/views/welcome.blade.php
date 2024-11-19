@@ -31,9 +31,15 @@
                     <h5 class="card-title">
                         {{$task->title}}
                     </h5>
+
                     <p class="card-descriptions">
                         {{$task->description}}
                     </p>
+
+                    <p>
+                        <strong>Criado por:</strong> {{$task->user->name}}
+                    </p>
+
                 </div>
 
                 <a href="/tasks/create/{{$task->id}}" class="btn btn-primary">Editar</a>

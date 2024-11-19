@@ -16,9 +16,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 
 Route::get('/', [TaskController::class, 'index']);
-Route::get('/tasks/create/{id?}', [TaskController::class, 'create']);
+Route::get('/tasks/create/{id?}', [TaskController::class, 'create'])->middleware('auth');
 Route::post("/tasks", [TaskController::class, 'store']);
 
 Route::get('/contact', function() {
     return view('contact');
+});
+
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });

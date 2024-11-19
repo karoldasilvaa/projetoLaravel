@@ -20,8 +20,20 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link" href="/tasks/create">Criar Tarefas</a>
-                        <a class="nav-link" href="#">Login</a>
-                        <a class="nav-link" href="#">Criar conta</a>
+
+                        @auth
+                            <a class="nav-link" href="/login">Meus eventos</a>
+                            <form action="/logout" method="POST" style="display: inline;">
+                                @csrf
+                                <a class="nav-link" href="/logout" onclick="event.preventDefault(); this.closest('form').submit();">Sair</a>
+                            </form>
+                        @endauth
+
+                        @guest
+                            <a class="nav-link" href="/login">Login</a>
+                            <a class="nav-link" href="/register">Criar conta</a>
+                        @endguest
+
                     </div>
                 </div>
             </div>
@@ -44,6 +56,6 @@
         </footer>
 
         <script scr="/js/app.js"></script>
-        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="/css/style.css">
     </body>
 </html>

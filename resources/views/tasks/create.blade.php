@@ -32,7 +32,7 @@
         </div>
         <div class="form-group spacing">
             <label for="description">Descrição:</label>
-            <textarea class="form-control" id="description" name="description" placeholder="Descrição da tarefa">{{$task->title ?? ''}}</textarea>
+            <textarea class="form-control" id="description" name="description" placeholder="Descrição da tarefa">{{$task->description ?? ''}}</textarea>
         </div>
         <input type="submit" class="btn btn-primary spacing" value="Salvar">
     </form>

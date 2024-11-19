@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Task;
 
+use App\Models\User;
+
 class TaskController extends Controller
 {
     public function index() {
@@ -17,6 +19,10 @@ class TaskController extends Controller
             ])->get();
         }else {
             $tasks = Task::all();
+        } 
+
+        foreach ($tasks as $task) {
+            $task->user = User::where('id', $task->user_id)->first();
         }
 
         return view('welcome', ['tasks' => $tasks, 'search' => $search]);
@@ -29,6 +35,7 @@ class TaskController extends Controller
         }
 
         $task = Task::findOrFail($id);
+        
         return view('tasks.create', ['task' => $task ]);
     }
 
@@ -57,6 +64,9 @@ class TaskController extends Controller
 
                 $task->image = $imageName;
             }   
+
+            $user = auth()->user();
+            $task -> user_id = $user->id;
 
             $task->save();
 

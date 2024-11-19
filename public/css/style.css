@@ -1,0 +1,183 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap);* {
+    font-family:'Roboto', sans-serif;;
+}
+
+body {
+    min-height: 100vh;
+    padding-bottom: 100px;
+    position: relative;
+    color: #555;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+header {
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+.row {
+    margin:0;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.btn-primary {
+    background-color: rgb(248, 162, 0);
+    border: 2px solid rgb(248, 162, 0);
+    color: white;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: rgb(230, 150, 0);
+    border-color: rgb(230, 150, 0);
+}
+
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: rgb(220, 140, 0);
+    border-color: rgb(220, 140, 0);
+    outline: none;
+    box-shadow: none;
+}
+
+#navbar img {
+    width: 50px;
+}
+
+#navbar {
+    justify-content: space-between;
+    background-color: rgb(248, 162, 0) !important;
+    padding: 5px 0;
+}
+
+#navbar a {
+    font-size: 14px;
+    color: #fff;
+}
+
+#navbar a:hover {
+    color: rgb(5, 16, 32);
+}
+
+#search-container {
+    background-color: rgb(5, 16, 32);
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    padding: 50px;
+    text-align: center;
+}
+
+#search-container h1 {
+    color: rgb(248, 162, 0);
+    margin-bottom: 30px;
+    font-weight: 900;
+}
+
+#search-container form {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#tarefas-container {
+    padding: 50px;
+}
+
+#tarefas-container h2 {
+    margin-bottom: 10px;
+}
+
+#tarefas-container .subtitle {
+    margin-bottom: 30px;
+}
+
+.cards-container {
+    display: flex;
+}
+
+#tarefas-container .card {
+    flex: 1 1 0;
+    max-width: 25%;
+    border-radius: 10px;
+    padding: 0;
+    margin: 5px;
+}
+
+#tarefas-container img {
+    max-height: 150px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card .card-date {
+    font-size: 12px;
+    color: #fff;
+}
+
+.card .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.cards-descriptions {
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    background-color: rgb(5, 16, 32);
+    color: #fff;
+    padding: 30px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#tarefa-create-container {
+    padding: 30px;
+}
+
+#tarefa-create-container label {
+    font-weight: bold;
+}
+
+#tarefa-create-container input,
+#tarefa-create-container select,
+#tarefa-create-container textarea {
+    font-size: 12px;
+}
+
+.msg-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.msg-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.msg-success, .msg-error {
+    width: 100%;
+    margin-bottom: 0;
+    text-align: center;
+    padding: 10px;
+}
+
+.spacing {
+    margin-bottom: 15px;
+}
+
+#tarefa-create-container img {
+    max-height: 200px;
+}

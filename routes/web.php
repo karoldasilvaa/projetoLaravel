@@ -17,12 +17,12 @@ use App\Http\Controllers\TaskController;
 
 Route::get('/', [TaskController::class, 'index']);
 Route::get('/tasks/create/{id?}', [TaskController::class, 'create'])->middleware('auth');
+Route::delete("/tasks/{id}", [TaskController::class, 'delete']);
 Route::post("/tasks", [TaskController::class, 'store']);
 
 Route::get('/contact', function() {
     return view('contact');
 });
-
 
 Route::middleware([
     'auth:sanctum',

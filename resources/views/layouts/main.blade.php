@@ -22,7 +22,6 @@
                         <a class="nav-link" href="/tasks/create">Criar Tarefas</a>
 
                         @auth
-                            <a class="nav-link" href="/login">Meus eventos</a>
                             <form action="/logout" method="POST" style="display: inline;">
                                 @csrf
                                 <a class="nav-link" href="/logout" onclick="event.preventDefault(); this.closest('form').submit();">Sair</a>

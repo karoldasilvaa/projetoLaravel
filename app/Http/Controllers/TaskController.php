@@ -12,13 +12,19 @@ class TaskController extends Controller
 {
     public function index() {
         $search = request('search');
+        $user = auth()->user();
 
         if($search) {
             $tasks = Task::where([
-                ['title', 'like', '%' .$search. '%']
+                ['title', 'like', '%' .$search. '%'],
+                ['user_id', $user->id]
             ])->get();
         }else {
-            $tasks = Task::all();
+            //$tasks = Task::all();
+
+            $tasks = Task::where([
+                ['user_id', $user->id]
+            ])->get();
         } 
 
         foreach ($tasks as $task) {
@@ -37,6 +43,17 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         
         return view('tasks.create', ['task' => $task ]);
+    }
+
+    public function delete($id) {
+        try {
+            $task = Task::find($id);
+            $task->delete();
+
+            return redirect('/')->with('msg-success', 'Tarefa excluída com sucesso!');
+        } catch (Exception $e) {
+            return redirect('/')->with('msg-error', 'Erro ao excluir tarefa. Favor tentar novamente mais tarde.');
+        }
     }
 
     public function store(Request $request) {
@@ -63,14 +80,16 @@ class TaskController extends Controller
                 $request->image->move(public_path('img/tarefas'), $imageName);
 
                 $task->image = $imageName;
-            }   
 
-            $user = auth()->user();
-            $task -> user_id = $user->id;
+                $user = auth()->user();
+                $task -> user_id = $user->id;
+    
+                $task->save();
+    
+                return redirect('/')->with('msg-success', 'Tarefa criada com sucesso!');
+            }
 
-            $task->save();
 
-            return redirect('/')->with('msg-success', 'Tarefa criada com sucesso!');
         } catch (Exception $e) {
             return redirect('/')->with('msg-error', 'Erro ao criar tarefa. Favor tentar novamente mais tarde.');
         }

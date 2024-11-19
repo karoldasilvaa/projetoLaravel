@@ -6,8 +6,13 @@
 
 <div id="search-container" class="col-md-12">
     <h1>Busque uma Tarefa</h1>
-    <form action="/" method="GEt">
-        <input type="text" id="search" name = "search" class="form-control" placeholder="Buscar..." />
+    <form action="/" method="GET">
+        <div class="input-group">
+            <input type="text" id="search" name="search" class="form-control" placeholder="Buscar..." />
+            <div class="input-group-append">
+                <input class="btn btn-primary" type="submit" value="Buscar">
+            </div>
+        </div>
     </form>
 </div>
 <div id="tarefas-container" class="col-md-12">
@@ -43,6 +48,11 @@
                 </div>
 
                 <a href="/tasks/create/{{$task->id}}" class="btn btn-primary">Editar</a>
+                <form action="/tasks/{{$task->id}}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
             </div>
         @endforeach
 

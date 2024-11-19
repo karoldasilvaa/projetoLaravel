@@ -181,3 +181,7 @@ footer {
 #tarefa-create-container img {
     max-height: 200px;
 }
+
+#cards-container form {
+    display: inline-grid;
+}

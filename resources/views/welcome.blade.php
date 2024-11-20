@@ -43,7 +43,7 @@
             <form action="/" method="GET">
                 <label for="status">Status:</label>
                 <select class="form-control" name="status_id" id="status_id" onchange="this.form.submit()">
-                    <option value="0" {{ request('status_id') == 0 ? 'selected' : '' }}>Selecione o Status</option>
+                    <option value="0" {{ request('status_id') == 0 ? 'selected' : '' }}>Todos</option>
                     <option value="1" {{ request('status_id') == 1 ? 'selected' : '' }}>Concluído</option>
                     <option value="2" {{ request('status_id') == 2 ? 'selected' : '' }}>Em andamento</option>
                     <option value="3" {{ request('status_id') == 3 ? 'selected' : '' }}>Pendente</option>

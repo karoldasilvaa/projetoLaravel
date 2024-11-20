@@ -25,7 +25,7 @@ class TaskController extends Controller
         if($user != null){
             // função para ver se o usuario é administrador
             if($user->access == 1) {
-                if ($status_id != null) {
+                if ($status_id != null && $status_id > 0 ) {
                     // consultar pelo status_id
                     $tasks = Task::where([
                         ['status_id', $status_id]
@@ -42,8 +42,8 @@ class TaskController extends Controller
                 } 
 
             } else {
-                // se o status_id não for null
-                if ($status_id != null) {
+                // se o status_id não for null e maior que zero 
+                if ($status_id != null && $status_id > 0 ) {
                     // consultar pelo status_id
                     $tasks = Task::where([                        
                         ['status_id', $status_id],

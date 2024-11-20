@@ -5,7 +5,7 @@
 @section('content')
 
 <div id="tarefa-create-container" class="col-md-6 offset-md-3">
-    <h1>Cadastro de Tarefa</h1>
+    <h1 class="text-center mb-4">Cadastro de Tarefa</h1>
     <form action="/tasks" method="POST" enctype="multipart/form-data">
         @csrf
 
@@ -34,7 +34,21 @@
             <label for="description">Descrição:</label>
             <textarea class="form-control" id="description" name="description" placeholder="Descrição da tarefa">{{$task->description ?? ''}}</textarea>
         </div>
-        <input type="submit" class="btn btn-primary spacing" value="Salvar">
+
+        <div class="form-group spacing">
+            <label for="status_id">Status:</label>
+            <select class="form-control" name="status_id" id="status_id" requered >
+                <option value="">Selecione o Status</option>
+                <option value="1" {{ isset($task) && $task->status_id == 1 ? 'selected' : '' }}>Concluído</option>
+                <option value="2" {{ isset($task) && $task->status_id == 2 ? 'selected' : '' }}>Em andamento</option>
+                <option value="3" {{ isset($task) && $task->status_id == 3 ? 'selected' : '' }}>Pendente</option>
+            </select>
+        </div>
+
+        <div class="form-group spacing">
+            <input type="submit" class="btn btn-primary spacing bt-salvar" value="Salvar">
+        </div>
+
     </form>
 </div>
 

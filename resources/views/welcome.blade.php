@@ -16,43 +16,71 @@
     </form>
 </div>
 <div id="tarefas-container" class="col-md-12">
-    @if($search) 
-    <h2>Buscando por: {{ $search }}</h2>
-    @else
-    <h2>Próximas Tarefas</h2>
-    @endif
 
-    @if (count($tasks) > 0)
-        <p class="subtitle">Veja as tarefas dos próximos dias</p>
-    @endif
+    <div class="row">
+        <div class="col-6">
+            @if($search) 
+            <h2>Buscando por: {{ $search }}</h2>
+            @else
+            <h2>Próximas Tarefas</h2>
+            @endif
+
+            @if (count($tasks) > 0)
+                <p class="subtitle">Veja as tarefas dos próximos dias</p>
+            @endif
+        </div>    
+        <div class="col-3">
+            <form action="/" method="GET">
+                <label for="sort_date">Ordenação:</label>
+                <select class="form-control" name="sort_date" id="sort_date" onchange="this.form.submit()">
+                    <option value="1" {{ request('sort_date') == 1 ? 'selected' : '' }}>Mais Recente</option>
+                    <option value="2" {{ request('sort_date') == 2 ? 'selected' : '' }}>Mais Antigo</option>
+                </select>
+            </form>
+        </div>  
+        
+        <div class="col-3">
+            <form action="/" method="GET">
+                <label for="status">Status:</label>
+                <select class="form-control" name="status_id" id="status_id" onchange="this.form.submit()">
+                    <option value="0" {{ request('status_id') == 0 ? 'selected' : '' }}>Selecione o Status</option>
+                    <option value="1" {{ request('status_id') == 1 ? 'selected' : '' }}>Concluído</option>
+                    <option value="2" {{ request('status_id') == 2 ? 'selected' : '' }}>Em andamento</option>
+                    <option value="3" {{ request('status_id') == 3 ? 'selected' : '' }}>Pendente</option>
+                </select>
+            </form> 
+        </div>          
+    </div>  
     
     <div id="cards-container" class="row">
         @foreach($tasks as $task)
-            <div class="card col-md-3">
-                <img src="/img/tarefas/{{$task->image}}" alt="{{$task->title}}">
-                <div class="card-body">
-                    <p>{{ date('d/m/Y', strtotime($task->date)) }}</p>
+            <div class="col-3">
+                <div class="card">
+                    <img src="/img/tarefas/{{$task->image}}" alt="{{$task->title}}">
+                    <div class="card-body">
+                        <p>{{ $task->date->format('d/m/Y') }}</p>
 
-                    <h5 class="card-title">
-                        {{$task->title}}
-                    </h5>
+                        <h5 class="card-title">
+                            {{$task->title}}
+                        </h5>
 
-                    <p class="card-descriptions">
-                        {{$task->description}}
-                    </p>
+                        <p class="card-descriptions">
+                            {{$task->description}}
+                        </p>
 
-                    <p>
-                        <strong>Criado por:</strong> {{$task->user->name}}
-                    </p>
+                        <p>
+                            <strong>Criado por:</strong> {{$task->user->name}}
+                        </p>
 
+                    </div>
+
+                    <a href="/tasks/create/{{$task->id}}" class="btn btn-primary">Editar</a>
+                    <form action="/tasks/{{$task->id}}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
                 </div>
-
-                <a href="/tasks/create/{{$task->id}}" class="btn btn-primary">Editar</a>
-                <form action="/tasks/{{$task->id}}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Excluir</button>
-                </form>
             </div>
         @endforeach
 

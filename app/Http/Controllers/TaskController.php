@@ -12,23 +12,42 @@ class TaskController extends Controller
 {
     public function index() {
         $search = request('search');
-        $user = auth()->user();
+        $status_id = request('status_id');
+        $sort_date = request('sort_date');
+        $user = auth()->user();   
 
-        if($search) {
-            $tasks = Task::where([
-                ['title', 'like', '%' .$search. '%'],
-                ['user_id', $user->id]
-            ])->get();
-        }else {
-            //$tasks = Task::all();
+        if($user->id != null){
+            if ($status_id) {
 
-            $tasks = Task::where([
-                ['user_id', $user->id]
-            ])->get();
-        } 
+                $tasks = Task::where([
+                    ['status_id', $status_id],
+                    ['user_id', $user->id]
+                ])->get();
+            }
+            elseif($search) {
+                $tasks = Task::where([
+                    ['title', 'like', '%' .$search. '%'],
+                    ['user_id', $user->id]
+                ])->get();
+            }else {
+                //$tasks = Task::all();
+    
+                $tasks = Task::where([
+                    ['user_id', $user->id]
+                ])->get();
+            } 
 
-        foreach ($tasks as $task) {
-            $task->user = User::where('id', $task->user_id)->first();
+            if ($sort_date == 1) {
+                $tasks = $tasks->sortByDesc('date');
+            }else{
+                $tasks = $tasks->sortBy('date');
+            }
+    
+            foreach ($tasks as $task) {
+                $task->user = User::where('id', $task->user_id)->first();
+            }
+
+
         }
 
         return view('welcome', ['tasks' => $tasks, 'search' => $search]);
@@ -68,6 +87,7 @@ class TaskController extends Controller
             $task->title = $request->title;
             $task->date = $request->date;
             $task->description = $request->description;
+            $task->status_id = $request->status_id;
 
             if($request->hasFile('image') && $request->file('image')->isValid()) {
 

@@ -8,6 +8,8 @@ use App\Models\Task;
 
 use App\Models\User;
 
+use App\Models\Status;
+
 class TaskController extends Controller
 {
     public function index() {
@@ -16,7 +18,7 @@ class TaskController extends Controller
         $sort_date = request('sort_date');
         $user = auth()->user();   
 
-        if($user->id != null){
+        if($user){
             if ($status_id) {
 
                 $tasks = Task::where([
@@ -42,15 +44,17 @@ class TaskController extends Controller
             }else{
                 $tasks = $tasks->sortBy('date');
             }
+
     
             foreach ($tasks as $task) {
                 $task->user = User::where('id', $task->user_id)->first();
+                $task->status = Status::where('id', $task->status_id)->first();
             }
 
-
-        }
-
-        return view('welcome', ['tasks' => $tasks, 'search' => $search]);
+            return view('welcome', ['tasks' => $tasks, 'search' => $search]);
+        } else {
+            return redirect('/login');
+        }        
     }
 
     public function create($id = null) {

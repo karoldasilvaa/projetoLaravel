@@ -72,6 +72,10 @@
                             <strong>Criado por:</strong> {{$task->user->name}}
                         </p>
 
+                        <p>
+                            {{$task->status->name}}
+                        </p>
+
                     </div>
 
                     <a href="/tasks/create/{{$task->id}}" class="btn btn-primary">Editar</a>

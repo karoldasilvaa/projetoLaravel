@@ -35,6 +35,7 @@
                             <a class="nav-link" href="/login">Login</a>
                             <a class="nav-link" href="/register">Criar conta</a>
                         @endguest
+                        
 
                     </div>
                 </div>

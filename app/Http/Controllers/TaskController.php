@@ -18,34 +18,52 @@ class TaskController extends Controller
         $sort_date = request('sort_date');
         $user = auth()->user();   
 
-        if($user){
-            if ($status_id) {
+        if($user != null){
+            //Administrador
+            if($user->access == 1) {
+                if ($status_id != null) {
 
-                $tasks = Task::where([
-                    ['status_id', $status_id],
-                    ['user_id', $user->id]
-                ])->get();
+                    $tasks = Task::where([
+                        ['status_id', $status_id]
+                    ])->get();
+                }
+                elseif($search) {
+                    $tasks = Task::where([
+                        ['title', 'like', '%' .$search. '%']
+                    ])->get();
+                }else {
+                    $tasks = Task::all();
+                } 
+
+            } else {
+                if ($status_id != null) {
+
+                    $tasks = Task::where([
+                        ['status_id', $status_id],
+                        ['user_id', $user->id]
+                    ])->get();
+                }
+                elseif($search != null) {
+                    $tasks = Task::where([
+                        ['title', 'like', '%' .$search. '%'],
+                        ['user_id', $user->id]
+                    ])->get();
+                }else {
+                    $tasks = Task::where([
+                        ['user_id', $user->id]
+                    ])->get();
+                } 
             }
-            elseif($search) {
-                $tasks = Task::where([
-                    ['title', 'like', '%' .$search. '%'],
-                    ['user_id', $user->id]
-                ])->get();
-            }else {
-                //$tasks = Task::all();
-    
-                $tasks = Task::where([
-                    ['user_id', $user->id]
-                ])->get();
-            } 
 
             if ($sort_date == 1) {
                 $tasks = $tasks->sortByDesc('date');
-            }else{
+            }elseif ($sort_date == 2){
                 $tasks = $tasks->sortBy('date');
             }
+            else {
+                $tasks = $tasks->sortByDesc('date');
+            }
 
-    
             foreach ($tasks as $task) {
                 $task->user = User::where('id', $task->user_id)->first();
                 $task->status = Status::where('id', $task->status_id)->first();
@@ -104,15 +122,14 @@ class TaskController extends Controller
                 $request->image->move(public_path('img/tarefas'), $imageName);
 
                 $task->image = $imageName;
-
-                $user = auth()->user();
-                $task -> user_id = $user->id;
-    
-                $task->save();
-    
-                return redirect('/')->with('msg-success', 'Tarefa criada com sucesso!');
             }
 
+            $user = auth()->user();
+            $task -> user_id = $user->id;
+
+            $task->save();
+
+            return redirect('/')->with('msg-success', 'Tarefa criada com sucesso!');
 
         } catch (Exception $e) {
             return redirect('/')->with('msg-error', 'Erro ao criar tarefa. Favor tentar novamente mais tarde.');

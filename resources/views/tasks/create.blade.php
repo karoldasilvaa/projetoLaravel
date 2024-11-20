@@ -19,7 +19,7 @@
 
         <div class="form-group spacing">
             <label for="image">Imagem da tarefa:</label>
-            <input type="file" id="image" name="image" required class="arquivo">
+            <input type="file" id="image" name="image" class="arquivo">
         </div>
         <div class="form-group spacing">
             <label for="title">Título:</label>
